@@ -1,0 +1,19 @@
+[
+  {
+    "rate_plan": "RESIDENTIAL_STANDARD",
+    "description": "Standard residential electricity rate",
+    "base_charge": 20.00,
+    "tiers": [
+      {
+        "min_kwh": 0,
+        "max_kwh": 1000,
+        "rate_per_kwh": 0.12
+      },
+      {
+        "min_kwh": 1001,
+        "max_kwh": null,
+        "rate_per_kwh": 0.16
+      }
+    ]
+  }
+]

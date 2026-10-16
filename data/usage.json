@@ -1,0 +1,34 @@
+[
+  {
+    "customer_id": "C001",
+    "billing_month": "2026-06",
+    "usage_kwh": 840
+  },
+  {
+    "customer_id": "C001",
+    "billing_month": "2026-07",
+    "usage_kwh": 1240
+  },
+
+  {
+    "customer_id": "C002",
+    "billing_month": "2026-06",
+    "usage_kwh": 815
+  },
+  {
+    "customer_id": "C002",
+    "billing_month": "2026-07",
+    "usage_kwh": 820
+  },
+
+  {
+    "customer_id": "C003",
+    "billing_month": "2026-06",
+    "usage_kwh": 900
+  },
+  {
+    "customer_id": "C003",
+    "billing_month": "2026-07",
+    "usage_kwh": 905
+  }
+]

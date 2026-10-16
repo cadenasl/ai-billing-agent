@@ -1,0 +1,20 @@
+[
+  {
+    "customer_id": "C001",
+    "name": "John Smith",
+    "service_address": "123 Main St",
+    "rate_plan": "RESIDENTIAL_STANDARD"
+  },
+  {
+    "customer_id": "C002",
+    "name": "Sarah Johnson",
+    "service_address": "456 Oak Ave",
+    "rate_plan": "RESIDENTIAL_STANDARD"
+  },
+  {
+    "customer_id": "C003",
+    "name": "Michael Brown",
+    "service_address": "789 Pine Rd",
+    "rate_plan": "RESIDENTIAL_STANDARD"
+  }
+]

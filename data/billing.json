@@ -1,0 +1,44 @@
+[
+  {
+    "customer_id": "C001",
+    "billing_month": "2026-06",
+    "amount_due": 120.80,
+    "previous_balance": 0.00,
+    "fees": 0.00
+  },
+  {
+    "customer_id": "C001",
+    "billing_month": "2026-07",
+    "amount_due": 178.40,
+    "previous_balance": 0.00,
+    "fees": 0.00
+  },
+  {
+    "customer_id": "C002",
+    "billing_month": "2026-06",
+    "amount_due": 117.80,
+    "previous_balance": 0.00,
+    "fees": 0.00
+  },
+  {
+    "customer_id": "C002",
+    "billing_month": "2026-07",
+    "amount_due": 163.40,
+    "previous_balance": 45.00,
+    "fees": 0.00
+  },
+  {
+    "customer_id": "C003",
+    "billing_month": "2026-06",
+    "amount_due": 128.00,
+    "previous_balance": 0.00,
+    "fees": 0.00
+  },
+  {
+    "customer_id": "C003",
+    "billing_month": "2026-07",
+    "amount_due": 133.60,
+    "previous_balance": 0.00,
+    "fees": 5.00
+  }
+]

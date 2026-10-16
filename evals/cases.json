@@ -1,0 +1,62 @@
+ [
+    {
+        "name": "C001 usage increase",
+        "question": 
+            "Why did customer C001's bill increase from June 2026 to July 2026?"
+        ,
+        "expected_tools": [
+            "get_billing_info",
+            "get_usage_info",
+            "get_rate_plan"
+        ],
+        "expected_facts": [
+            "120.80",
+            "178.40",
+            "57.60"
+        ]
+    },
+    {
+        "name": "C002 previous balance",
+        "question": 
+            "Why did customer C002's bill increase from June 2026 to July 2026?"
+        ,
+        "expected_tools": [
+            "get_billing_info",
+            "get_usage_info",
+            "get_rate_plan"
+        ],
+        "expected_facts": [
+            "45",
+            "previous balance"
+        ]
+    },
+    {
+        "name": "C003 fee increase",
+        "question": 
+            "Why did customer C003's bill increase from June 2026 to July 2026?"
+        ,
+        "expected_tools": [
+            "get_billing_info",
+            "get_usage_info",
+            "get_rate_plan"
+        ],
+        "expected_facts": [
+            "5.60",
+            "5.00",
+            "0.60"
+        ]
+    },
+    {
+        "name": "C003 missing August data",
+        "question": 
+            "Why did customer C003's bill increase from July 2026 to August 2026?"
+        ,
+        "expected_tools": [
+            "get_billing_info",
+            "get_usage_info"
+        ],
+        "expected_facts": [
+            "can't determine"
+        ]
+    }
+]
