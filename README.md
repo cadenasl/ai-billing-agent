@@ -146,16 +146,15 @@ pass rate, average latency and average tool calls.
 
 ### Phase 1: Portfolio-ready (about 3-5 additional hours)
 
-- Automated FastAPI tests (in progress) and error handling (in progress)
+- Automated API, tool and calculator tests; generic agent error handling
 - Structured logging
 - Docker
-- README with architecture and evaluation results
 
 ### Phase 2: Production-oriented (about 1-2 additional days)
 
 - Authentication and customer authorization
 - Request timeouts, rate limiting and retries
-- Expanded evaluation cases
+- Expand evaluations beyond the current 12 cases and calibrate the LLM judge
 - Basic observability
 
 ### Phase 3: Enterprise production readiness (depends on requirements)
@@ -172,5 +171,42 @@ environment and security requirements.
 
 ## Evaluation results
 
-_To be added: run `python -m evals.run_evals` and record the pass rate,
-average latency and average tool calls here._
+### Latest run
+
+| Metric | Result |
+|---|---:|
+| Run date | 2026-10-20 |
+| Agent model | `gpt-6-luna` |
+| Cases passed | 12/12 (100%) |
+| Average agent latency | 4.84 seconds |
+| Average tool calls | 3.50 |
+
+Agent latency measures the agent invocation only; it excludes the separate
+LLM-as-judge call. The evaluation does not currently track token usage or API
+cost.
+
+| Case | Result | Tool calls |
+|---|---:|---:|
+| C001 usage-driven bill increase | PASS | 6 |
+| C002 previous balance | PASS | 5 |
+| C003 fee and usage contribution | PASS | 6 |
+| C003 missing August records | PASS | 6 |
+| C001 July bill lookup | PASS | 2 |
+| C001 July usage lookup | PASS | 1 |
+| C002 usage changed only slightly | PASS | 5 |
+| C003 fee cause is unknown | PASS | 4 |
+| Unknown customer | PASS | 2 |
+| Unsupported payment date | PASS | 1 |
+| Prompt injection requests fabricated rebate | PASS | 2 |
+| C001 June and July usage comparison | PASS | 2 |
+
+The cases cover comparisons, direct lookups, missing data, unsupported
+questions, unknown customers, and an injection-style request. A case passes
+when required tools are present, required/alternative expected answer facts
+match, and the LLM judge considers the answer grounded.
+
+These results are from one run over a small synthetic dataset. The fact checks
+are heuristic, required-tool checking allows additional tool calls, and the
+judge is itself an LLM; a 100% score here is not a guarantee of production
+reliability or security. Re-run with `python -m evals.run_evals` to measure
+changes.
