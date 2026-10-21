@@ -1,10 +1,15 @@
 import json, time
+import sys
 from pathlib import Path
 from evals.judge import evaluate_groundedness
 
 from langchain_core.messages import HumanMessage,ToolMessage
 
 from app.agent import agent
+
+reconfigure_stdout = getattr(sys.stdout, "reconfigure", None)
+if callable(reconfigure_stdout):
+    reconfigure_stdout(encoding="utf-8", errors="replace")
 
 EVAL_CASES = json.loads(Path(__file__).with_name("cases.json").read_text(encoding="utf-8"))
 
@@ -66,17 +71,28 @@ def get_final_answer(result):
         texts.append(ai_block["text"])
 
     return "\n".join(texts)
-def check_expected_facts(answer, expected_facts):
-    answer = normalize_apostrophe(answer)
+def check_expected_facts(answer, expected_facts, expected_fact_groups):
+    answer = normalize_answer_text(answer)
 
-    expected_fact_checks = []
+    # Check that all required facts are present
     for fact in expected_facts:
-        normalized_fact = normalize_apostrophe(fact)
-        expected_fact_checks.append(normalized_fact in answer)
+        if normalize_answer_text(fact) not in answer:
+            return False
 
-    return all(expected_fact_checks)
-def normalize_apostrophe(text):
-    return text.lower().replace("’", "'")
+    # Check that each group has at least one matching fact
+    for group in expected_fact_groups:
+        if not any(
+            normalize_answer_text(fact) in answer
+            for fact in group
+        ):
+            return False
+
+    return True
+
+def normalize_answer_text(text):
+    return text.lower().replace("’", "'").replace(",", "")
+
+
 if __name__ == "__main__":
     results = []
     for eval_case in EVAL_CASES:
@@ -88,19 +104,15 @@ if __name__ == "__main__":
         print(f"Latency: {latency:.2f} seconds")
         for tool_call in tool_calls:
          print(tool_call["name"])
-        final_message = result["messages"][-1]
         tool_pass = check_expected_tools(tool_calls, eval_case.get("expected_tools", []))
         print("Tool selection:", "PASS" if tool_pass else "FAIL")
         final_answer = get_final_answer(result)
-        facts_pass = check_expected_facts(final_answer, eval_case.get("expected_facts", []))
+        facts_pass = check_expected_facts(
+            final_answer,
+            eval_case.get("expected_facts", []),
+            eval_case.get("expected_fact_groups", []),
+        )
         tool_responses = get_tool_responses(result)
-        if eval_case["name"] == "C001 usage increase":
-            print("\nDEBUG: C001 TOOL RESPONSES")
-
-            for response in tool_responses:
-                print("Tool:", response["tool_name"])
-                print("Response:", response["content"])
-                print("-" * 30)
         judge_result = evaluate_groundedness(
             question=eval_case["question"],
             answer=final_answer,
@@ -118,6 +130,9 @@ if __name__ == "__main__":
                 and facts_pass
                 and judge_result.grounded
             ),
+            "tool_pass": tool_pass,
+            "facts_pass": facts_pass,
+            "grounded": judge_result.grounded,
             "tool_calls": len(tool_calls),
             "latency": latency,
         })
